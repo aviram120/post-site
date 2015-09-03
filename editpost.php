@@ -25,14 +25,16 @@
 				Edit Post
 			</div>
 			<div class="panel-body">		
-			
+				<form  method="post">
 				<?php getPostByID(); ?>
 				<table >
 					<tr>
-						<form action="editpost.php" method="post">
-							<td><button style="width:60px" type="submit" name="submit" <?php editPost(); ?>>Edit</button> <br></td>
+						
+							<td><button style="width:60px" type="submit" name="submitAddToDB" >Edit</button> <br></td>
 						</form>
-						<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>									
+						<form action="index.php">
+						<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>
+						</form>						
 					</tr>
 				</table>
 			</div>
@@ -41,11 +43,36 @@
 
 <?php
 
+if (isset($_POST['submitAddToDB']))
+{
+	$idPost=$_GET['id'];
+
+	$con=mysql_connect("localhost","aviram","12345");//password=12345
+	if (!$con)
+	{
+		die("can not connect:".mysql_error());
+	}
+
+	mysql_select_db("postDB",$con);
+	
+	$sql="UPDATE postTbale SET title='$_POST[title]',content='$_POST[content]' WHERE id=".$idPost;
+	
+	mysql_query($sql,$con);
+	if (!$con)
+	{
+		die("error:".mysql_error());
+	}
+
+	mysql_close($con);	
+	
+	header("Location: index.php");
+	die();	
+}
 
 function getPostByID()
 {	
 	$idPost=$_GET['id'];
-	echo $idPost;
+	
 	$con=mysql_connect("localhost","aviram","12345");//password=12345
 	if (!$con)
 	{
@@ -59,6 +86,7 @@ function getPostByID()
 
 	while($record=mysql_fetch_array($myData))
 	{
+		
 		echo "<table style='width:90%' >";
 		echo "<tr>";
 		echo "<td width='20%'> Post Title:  <br><br></td>";
@@ -67,38 +95,11 @@ function getPostByID()
 		
 		echo "<tr>";
 		echo "<td> Content:</td>";
-		echo "<td > <textarea name='content' rows='4' cols='60' style='width:100%'>".$record['content']."required </textarea> <br><br></td>";
+		echo "<td > <textarea name='content' rows='4' cols='60' style='width:100%' required>".$record['content']." </textarea> <br><br></td>";
 		echo "</tr>";
-		echo "</table><br>";
+		echo "</table><br>";	
 	}
 	mysql_close($con);	
-}
-function editPost()
-{
-	if (isset($_POST['submit']))
-	{
-	echo "in";
-	/*
-	$idPost=$_GET['id'];
-	echo $idPost;
-	$con=mysql_connect("localhost","aviram","12345");//password=12345
-	if (!$con)
-	{
-		die("can not connect:".mysql_error());
-	}
-
-	mysql_select_db("postDB",$con);
-	
-	$sql="INSERT INTO postTbale(title,content,id) VALUES('$_POST[title]','$_POST[content]',$idPost)";
-	
-	mysql_query($sql,$con);
-	if (!$con)
-	{
-		die("error:".mysql_error());
-	}
-
-	mysql_close($con);	*/
-	}
 }
 
 ?>
