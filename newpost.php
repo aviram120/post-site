@@ -5,26 +5,14 @@
 <title>Post</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<style type="text/css">
-	.center {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-
-}
-.bigText {
-    height:250px;
-	width: 80%;
-}
-
-</style>
+<link rel="stylesheet"  type="text/css" href="style/style.css">
 
 </head>
 <body >
 
-<form action="newpost.php" method="post">
+<form action="newpost.php" method="post" >
 	<br>
-	<div class="center" >
+	<div class="header-content" >
 	   <div class="panel panel-default">
 			<div class="panel-heading">
 				Add New Post
@@ -39,12 +27,10 @@
 							<td > Content: <br><br></td>
 							<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
 						</tr>			
-					</table>
-					
+					</table>					
 					 <br>
 					 <table >
-						<tr>
-							
+						<tr>							
 							<td><button type="submit" style="width:60px" name="submit" >Add</button> <br></td>
 							<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>		
 						</tr>			 
@@ -54,6 +40,7 @@
 	</div>
 </form>
 <?php
+
 if (isset($_POST['submit']))
 {
 	$con=mysql_connect("localhost","aviram","12345");//password=12345
