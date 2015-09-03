@@ -30,9 +30,9 @@
 				<table >
 					<tr>
 						<form action="editpost.php" method="post">
-							<td><button style="width:60px" type="submit" name="submit" >Edit</button> <br></td>
+							<td><button style="width:60px" type="submit" name="submit" <?php editPost(); ?>>Edit</button> <br></td>
 						</form>
-						<td><button style="width:60px" onclick="location.href='index.php';">Cancel</button></td>									
+						<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>									
 					</tr>
 				</table>
 			</div>
@@ -62,19 +62,21 @@ function getPostByID()
 		echo "<table style='width:90%' >";
 		echo "<tr>";
 		echo "<td width='20%'> Post Title:  <br><br></td>";
-		echo "<td><input  type='text' name='title' style='width:40%' value=".$record['title']."> <br><br></td>";
+		echo "<td><input  type='text' name='title' style='width:40%'  value='".$record['title']."' required> <br><br></td>";		
 		echo "</tr>";
 		
 		echo "<tr>";
 		echo "<td> Content:</td>";
-		echo "<td > <textarea name='content' rows='4' cols='60' style='width:100%'>".$record['content']."</textarea> <br><br></td>";
+		echo "<td > <textarea name='content' rows='4' cols='60' style='width:100%'>".$record['content']."required </textarea> <br><br></td>";
 		echo "</tr>";
 		echo "</table><br>";
 	}
 	mysql_close($con);	
 }
-if (isset($_POST['submit']))
+function editPost()
 {
+	if (isset($_POST['submit']))
+	{
 	echo "in";
 	/*
 	$idPost=$_GET['id'];
@@ -96,7 +98,9 @@ if (isset($_POST['submit']))
 	}
 
 	mysql_close($con);	*/
+	}
 }
+
 ?>
 
 

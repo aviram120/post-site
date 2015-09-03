@@ -33,19 +33,20 @@
 					<table style="width:90%" >
 						<tr>
 							<td width='20%'> Post Title: <br><br> </td>
-							<td><input  type="text" name="title" style="width:40%"> <br><br></td>									
+							<td><input  type="text" name="title" style="width:40%" required> <br><br></td>									
 						</tr>
 						<tr>
 							<td > Content: <br><br></td>
-							<td > <textarea name="content" rows="4" cols="60" style="width:100%"> </textarea> <br><br></td>					
+							<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
 						</tr>			
 					</table>
 					
 					 <br>
 					 <table >
 						<tr>
+							
 							<td><button type="submit" style="width:60px" name="submit" >Add</button> <br></td>
-							<td><button style="width:60px">Delete</button></td>									
+							<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>		
 						</tr>			 
 					 </table>			
 			</div>
@@ -71,7 +72,7 @@ if (isset($_POST['submit']))
 		die("error:".mysql_error());
 	}
 
-	mysql_close($con);	
+	mysql_close($con);
 }
 
 ?>
