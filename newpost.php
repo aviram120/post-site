@@ -1,46 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-<meta charset="UTF-8">
-<title>Post</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet"  type="text/css" href="style/style.css">
+<?php include("resources/tamplates/front/header.php") ?>
+<div id="wrapper">
 
-</head>
-<body >
-
-<form action="newpost.php" method="post" >
-	<br>
-	<div class="header-content" >
-	   <div class="panel panel-default">
-			<div class="panel-heading">
-				Add New Post
-			</div>
-			<div class="panel-body" >			
-					<table style="width:90%" >
-						<tr>
-							<td width='20%'> Post Title: <br><br> </td>
-							<td><input  type="text" name="title" style="width:40%" required> <br><br></td>									
-						</tr>
-						<tr>
-							<td > Content: <br><br></td>
-							<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
-						</tr>			
-					</table>					
-					 <br>
-					 <table >
-						<tr>							
-							<td><button type="submit" style="width:60px" name="submit" >Add</button> <br></td>
-							<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>		
-						</tr>			 
-					 </table>			
+	<!-- start header -->
+		<header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.php"><img src="img/logo.png" alt="logo"/></a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.php">Home</a></li> 						
+						<li><a href="postMaganer.php">Post Menager</a></li>
+                        <li class="active"><a href="newPost.php">Make Post</a></li>
+                        <li><a href="myAccount.php">My Posts</a></li>
+                        <li><a href="contact.php">Contact</a></li>
+						<li><a href="about.php">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	</header><!-- end header -->
+	<section id="inner-headline">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="pageTitle"></h2>
 			</div>
 		</div>
 	</div>
-</form>
-<?php
+	</section>
+	<section id="content">
+	<div class="container">
+		<!-- my -->
+		<form action="newPost.php" method="post" >
+			<table style="width:90%" >
+				<tr>
+					<td width='20%'> Post Title: <br><br> </td>
+					<td><input  type="text" name="title" style="width:40%" required> <br><br></td>									
+				</tr>
+					<tr>
+						<td > Content: <br><br></td>
+						<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
+					</tr>			
+			</table>					
+				<br>
+			<table >
+				<tr>
+					<td><button  type="submit"  name="submit" class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Add</button><br></td>										
+					<!--
+					<td>					
+					<button  type="submit" style="width:60px" name="submit" >Add</button> 
+					<br></td>
+					<td><button style="width:60px" onclick="location.href='index.php';">Back</button></td>	
+					-->
+				</tr>			 
+			</table>	
+		</form>
+		<!-- end my -->
+		<br>		
+	</div>
+	</section>
 
+
+<?php
 if (isset($_POST['submit']))
 {
 	$con=mysql_connect("localhost","aviram","12345");//password=12345
@@ -60,10 +88,8 @@ if (isset($_POST['submit']))
 	}
 
 	mysql_close($con);
+	header("Location: postMaganer.php");
+	die();
 }
-
 ?>
-
-</body>
-</html>
-
+	<?php include("resources/tamplates/front/footer.php") ?>
