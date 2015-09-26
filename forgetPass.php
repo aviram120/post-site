@@ -1,5 +1,4 @@
 <?php include("resources/tamplates/front/header.php") ?>
-<?php include("resources/functions.php") ?>
 <div id="wrapper">
 
 	<!-- start header -->
@@ -18,7 +17,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="index.php">Home</a></li> 						
 						<li><a href="postMaganer.php">Post Menager</a></li>
-                        <li class="active"><a href="newPost.php">Make Post</a></li>
+                        <li ><a href="newPost.php">Make Post</a></li>
                         <li><a href="myAccount.php">My Posts</a></li>
                         <li><a href="contact.php">Contact</a></li>
 						<li><a href="about.php">About Us</a></li>
@@ -39,61 +38,17 @@
 	<section id="content">
 	<div class="container">
 		<!-- my -->
-		<?php userIsConected(); ?> 
-		
-		<form action="newPost.php" method="post" >
-			<table style="width:90%" >
-				<tr>
-					<td width='20%'> Post Title: <br><br> </td>
-					<td><input  type="text" name="title" style="width:40%" required> <br><br></td>									
-				</tr>
-					<tr>
-						<td > Content: <br><br></td>
-						<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
-					</tr>			
-			</table>					
-				<br>
-			<table >
-				<tr>
-					<td><button  type="submit"  name="submit" class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Add</button><br></td>										
-				</tr>			 
-			</table>	
+		<form  style="text-align: center">
+			
+				Mail:<br> <input type="text" name="mailforget" placeholder="email@example.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="50" required>
+				<br><br>
+				<a class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Send</a>	
+				<br><br><br>
 		</form>
 		<!-- end my -->
-		<br>		
+					
 	</div>
 	</section>
 
 
-<?php
-
-if (isset($_POST['submit']))
-{
-	$con=makeConnection();	
-	
-	if (isset($_COOKIE['usedID']))//get userID from cookie
-	{
-		$usedIdEncode=mysql_real_escape_string($_COOKIE['usedID']);		
-
-		$usedIdDencode=base64_decode($usedIdEncode);
-		$user=mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `id`='$usedIdDencode'"));
-		if ($user!='0')//connected
-		{
-			$usernameDB=$user['username'];	
-		}
-	}
-	
-	$sql="INSERT INTO postTbale(title,content,id,username) VALUES('$_POST[title]','$_POST[content]',NULL,'$usernameDB')";
-	
-	mysql_query($sql,$con);
-	if (!$con)
-	{
-		die("error:".mysql_error());
-	}
-
-	mysql_close($con);
-	header("Location: postMaganer.php");
-	die();
-}
-?>
 	<?php include("resources/tamplates/front/footer.php") ?>

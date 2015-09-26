@@ -18,7 +18,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="index.php">Home</a></li> 						
 						<li><a href="postMaganer.php">Post Menager</a></li>
-                        <li class="active"><a href="newPost.php">Make Post</a></li>
+                        <li ><a href="newPost.php">Make Post</a></li>
                         <li><a href="myAccount.php">My Posts</a></li>
                         <li><a href="contact.php">Contact</a></li>
 						<li><a href="about.php">About Us</a></li>
@@ -39,61 +39,62 @@
 	<section id="content">
 	<div class="container">
 		<!-- my -->
-		<?php userIsConected(); ?> 
-		
-		<form action="newPost.php" method="post" >
-			<table style="width:90%" >
-				<tr>
-					<td width='20%'> Post Title: <br><br> </td>
-					<td><input  type="text" name="title" style="width:40%" required> <br><br></td>									
-				</tr>
-					<tr>
-						<td > Content: <br><br></td>
-						<td > <textarea name="content" rows="4" cols="60" style="width:100%" required> </textarea> <br><br></td>					
-					</tr>			
-			</table>					
-				<br>
-			<table >
-				<tr>
-					<td><button  type="submit"  name="submit" class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Add</button><br></td>										
-				</tr>			 
-			</table>	
+		<form action="login.php" method="post" >	
+			 User Name:
+			<br> <input name="userName" type="text" id="login_username" maxlength="30" required><br>
+
+			Password:<br><input name="pwd" id="login_password" title="Password must contain at least 4 characters" type="password" required minlength="4" onchange="
+			this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
+			<br>
+			<br><br>
+			
+			<button  type="submit"  name="submit" class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Sign in</button>
+			<button  type="reset"   class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Reset</button>	
+
+
+			<br/><br/>
+			<a href="forgetPass.php">Forgot Password\User name?</a>
+			<br>
+			<br><br>
 		</form>
-		<!-- end my -->
-		<br>		
+			<!-- end my -->
+					
 	</div>
 	</section>
-
-
 <?php
-
+if (isset($_COOKIE['usedID']))//if try to login whill connected
+{
+	unset($_COOKIE['usedID']);
+	setcookie("usedID", "", time() - 3600,"/");
+	
+	header("Location: login.php");
+	die();
+}	
 if (isset($_POST['submit']))
 {
-	$con=makeConnection();	
+	$con=makeConnection();
 	
-	if (isset($_COOKIE['usedID']))//get userID from cookie
+	//check if the username is exsist
+	$checkUser=mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `username`='$_POST[userName]'"));
+	if ($checkUser!='0')
 	{
-		$usedIdEncode=mysql_real_escape_string($_COOKIE['usedID']);		
-
-		$usedIdDencode=base64_decode($usedIdEncode);
-		$user=mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `id`='$usedIdDencode'"));
-		if ($user!='0')//connected
+		if ($checkUser['password']==md5($_POST['pwd']))
 		{
-			$usernameDB=$user['username'];	
+			$usedID=base64_encode($checkUser['id']);
+			//set cookie
+			setcookie("usedID",$usedID,time()+24*60*60,"/");
+			header("Location: postMaganer.php");
+		}
+		else
+		{
+			 echo "<font color='red'> ERROR: Wrong UserName or Password!</font>";
 		}
 	}
-	
-	$sql="INSERT INTO postTbale(title,content,id,username) VALUES('$_POST[title]','$_POST[content]',NULL,'$usernameDB')";
-	
-	mysql_query($sql,$con);
-	if (!$con)
+	else
 	{
-		die("error:".mysql_error());
+		echo "<font color='red'> ERROR: Wrong UserName or Password!</font>";
 	}
-
-	mysql_close($con);
-	header("Location: postMaganer.php");
-	die();
 }
 ?>
+
 	<?php include("resources/tamplates/front/footer.php") ?>

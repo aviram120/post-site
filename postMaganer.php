@@ -41,10 +41,11 @@
 		<div class="container">
 			<?php getAllPost(); ?>
 			
-			<hr class="margin-bottom-50">
+			<br>
         
 		</div>
     </section>
-	
+
+
 	
 	<?php include("resources/tamplates/front/footer.php") ?>

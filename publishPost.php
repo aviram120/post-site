@@ -1,25 +1,43 @@
-
-<?php
-
-	$idPost=$_GET['id'];
-
-	$con=mysql_connect("localhost","aviram","12345");//password=12345
-	if (!$con)
+<?php include("resources/functions.php") ?>
+<?php	
+	if (isset($_COOKIE['usedID']))
 	{
-		die("can not connect:".mysql_error());
-	}
+		$idPost=$_GET['id'];
 
-	mysql_select_db("postDB",$con);
-	
-	$sql="UPDATE postTbale SET isPublish='1' WHERE id=".$idPost;
-	
-	mysql_query($sql,$con);
-	if (!$con)
+		$usedIdEncode=$_COOKIE['usedID'];//get userID from cookie
+		$usedIdDencode=base64_decode($usedIdEncode);
+		
+		$con=makeConnection();
+		
+		$sqlCheakIfPublish=mysql_fetch_array(mysql_query("SELECT*FROM postTbale WHERE id=".$idPost));
+		$user=mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `id`='$usedIdDencode'"));
+		
+		if (($sqlCheakIfPublish['username']==$user['username']) or ($usedIdDencode=='1'))//is it the same username
+		{
+			$sql="UPDATE postTbale SET isPublish='1' WHERE id=".$idPost;
+			
+			mysql_query($sql,$con);
+			if (!$con)
+			{
+				die("error:".mysql_error());
+			}
+
+			mysql_close($con);	
+			
+			header("Location: postMaganer.php");
+			die();
+		}
+		else
+		{
+			mysql_close($con);	
+			header("Location: error.php");
+			die();
+		}
+		
+	}
+	else
 	{
-		die("error:".mysql_error());
+		header("Location: error.php");
+		die();
 	}
-
-	mysql_close($con);		
-	header("Location: postMaganer.php");
-	die();
 ?>

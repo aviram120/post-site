@@ -64,14 +64,8 @@
 if (isset($_POST['submitAddToDB']))
 {
 	$idPost=$_GET['id'];
+	$con=makeConnection();
 
-	$con=mysql_connect("localhost","aviram","12345");//password=12345
-	if (!$con)
-	{
-		die("can not connect:".mysql_error());
-	}
-
-	mysql_select_db("postDB",$con);
 	
 	$sql="UPDATE postTbale SET title='$_POST[title]',content='$_POST[content]' WHERE id=".$idPost;
 	
